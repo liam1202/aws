@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Transaction</title>
+</head>
+<body>
+    <div class="transaction-container">
+        <h1>Transaction</h1>
+        <form id="transactionForm">
+            <label for="receiverId">Receiver ID:</label>
+            <input type="text" id="receiverId" name="receiverId" required>
+
+            <label for="amount">Amount ($):</label>
+            <input type="number" id="amount" name="amount" required>
+
+            <button type="button" onclick="sendMoney()">Send Money</button>
+            <button type="button" onclick="requestMoney()">Request Money</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
