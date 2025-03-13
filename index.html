@@ -1,0 +1,29 @@
+<!-- Include AWS SDK 
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+ Include the Cognito Identity SDK 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/4.6.0/aws-cognito-sdk.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/4.6.0/amazon-cognito-identity.min.js"></script>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <!-- Update the form action to point to your PHP script, e.g., login.php -->
+        <form id="loginForm" action="login.php" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required> <!-- Changed type to text and id to username -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <!-- Removed the script.js reference if not needed, or ensure it does not interfere with form submission -->
+</body>
+</html>
