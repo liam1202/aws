@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pending Requests</title>
+</head>
+<body>
+    <h1>Pending Requests</h1>
+    <div id="requestsContainer">
+        <!-- Requests will be loaded and forms submitted to handle_requests.php -->
+        <!-- ?php include 'load_requests.php'; ?-->
+    </div>
+    <button onclick="window.location.href='search.html';">Search Users</button>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'load_requests.php',
+                type: 'GET',
+                success: function(data) {
+                    $('#requestsContainer').html(data);
+                },
+                error: function() {
+                    $('#requestsContainer').html('<p>An error has occurred</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
