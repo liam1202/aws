@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Transaction</title>
+</head>
+<body>
+    <div class="transaction-container">
+        <h1>Transaction</h1>
+        <!-- Form now submits directly to transaction.php -->
+        <form id="transactionForm" action="transactions.php" method="post">
+            <label for="userId">User ID:</label>
+            <input type="text" id="userId" name="userId" value="<?php echo isset($_GET['userId']) ? $_GET['userId'] : ''; ?>" readonly required>
+
+            <label for="amount">Amount ($):</label>
+            <input type="number" id="amount" name="amount" value="<?php echo isset($_GET['amount']) ? $_GET['amount'] : ''; ?>" required>
+
+            <!-- Buttons are now submit buttons, each with a hidden input to specify the action -->
+            <input type="hidden" name="action" id="actionField" value="sendMoney">
+            <button type="submit" onclick="document.getElementById('actionField').value='sendMoney';">Send Money</button>
+
+            
+            <button type="submit" onclick="document.getElementById('actionField').value='requestMoney';">Request Money</button>
+        </form>
+    </div>
+    
+</body>
+</html>
