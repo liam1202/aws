@@ -1,0 +1,80 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Transaction History</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    
+    <button onclick="window.location.href='search.html';">Search Users</button>
+    <div id="pendingSection" style="display: none;">
+        <h2>Please click here to view your pending requests</h2>
+        <button onclick="window.location.href='pending.html';">Pending</button>
+    </div>
+    <div class="Account"></div>
+    <h2>Please click here to add to your account</h2>
+    <button onclick="window.location.href='account.html';">Add To Account</button>
+    <div class="Back"></div>
+    <h2>Click here to go back to login</h2>
+    <button onclick="window.location.href='logout.php';">Back to Login</button>
+</div>
+    <h1>Transaction History</h1>
+    <div id="balanceDisplay"></div> <!-- This will display the balance -->
+    <div id="history">
+        <!-- Transactions will be loaded here by AJAX -->
+    </div>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'history.php',
+                type: 'GET',
+                success: function(data) {
+                    $('#history').html(data);
+                },
+                error: function() {
+                    $('#history').html('<p>An error has occurred</p>');
+                }
+            });
+        });
+// AJAX call to check for pending requests
+$.ajax({
+    url: 'check_pending.php',
+    method: 'GET',
+    dataType: 'json',
+    success: function(response) {
+        if (response.hasPending) {
+            $('#pendingSection').show();
+        }
+    }
+});
+        
+    window.addEventListener('pageshow', function(event) {
+    // Check if page was loaded from back/forward cache
+    if (event.persisted || (window.performance && window.performance.getEntriesByType("navigation")[0].type === "back_forward")) {
+        // Optionally reload (but it's cleaner to check session first, not just reload)
+        // window.location.reload();   // Remove this line
+
+        // Use AJAX to check if the user is still logged in (session check)
+        fetch('session_check.php')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.logged_in) {
+                    window.location.href = 'index.html?alert=nologin';
+                    
+                    
+                    
+                }
+            })
+            .catch(() => {
+                alert('Session check failed. Redirecting to login.');
+                window.location.href = 'index.html';
+            });
+    }
+});
+
+    </script>
+</body>
+</html>
