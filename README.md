@@ -1,116 +1,146 @@
-Peer-to-Peer Payment App - Documentation
-Overview
-•	App for users to register, log in, send/request money, view history, add funds, and manage requests.
-•	Uses HTML for UI, PHP for backend logic, MySQL for storage, and JS for interactivity on the HTML files.
+# 💸 Peer-to-Peer Payment App
 
-Main Files and Their Purposes
-Frontend (HTML + JS)
-•	index.html – Login form for users.
-•	register.html – User registration form.
-•	history.html – Shows user’s balance, transaction history, and main navigation.
-•	transaction.html – Form to send/request money.
-•	pending.html – Displays pending requests to accept/decline.
-•	account.html – Add funds to your account (shows card number for logged in user).
-•	search.html – Search for users by username/email.
-•	style.css – Styles for all pages.
-•	loadRequests.js – Loads pending requests (AJAX) to pending.html.
-Backend (PHP)
-•	db.php – Database connection details, included in all backend scripts.
-•	create_user.php – Handles registration, checks for duplicates, creates user and account (with random card number).
-•	login.php – Authenticates user, starts session.
-•	logout.php – Logs out and destroys session.
-•	transactions.php – Handles sending/requesting money and updates database.
-•	history.php – Returns user balance and transaction history.
-•	load_requests.php – Shows logged-in user’s pending payment requests.
-•	handle_requests.php – Handles accepting/declining requests.
-•	add_to_account.php – Adds money (with 2-day delay logic).
-•	session_check.php – Checks if session is still active (AJAX endpoint).
+A simple web application that allows users to register, log in, send/request money, view transaction history, add funds, and manage payment requests.
 
-Database Structure
-•	Users
-o	UserID (PK)
-o	Username (unique)
-o	Email (unique)
-o	PasswordHash
-o	CreatedAt
-•	Accounts
-o	AccountID (PK)
-o	UserID (FK)
-o	Balance (Decimal)
-o	CardNumber (16-digit, unique, random)
-o	CreatedAt
-o	UpdatedAt
-•	Transactions
-o	TransactionID (PK)
-o	SenderID (FK)
-o	ReceiverID (FK)
-o	Amount (Decimal)
-o	TransactionDate
-•	Requests
-o	RequestID (PK)
-o	RequestorID (FK)
-o	RequesteeID (FK)
-o	Amount (Decimal)
-o	Status (PENDING/ACCEPTED/DECLINED)
-o	RequestDate
+## 🧭 Overview
 
-How To Use
-•	Register:
-o	Go to index.html
-o	Select the register button
-o	Fill username, email, password, and starting balance
-o	A random card number is generated to represent a bank card
-•	Log In:
-o	Use index.html
-o	Enter username and password
-o	On success, sent to history.html
-•	View History:
-o	history.html shows your username, current balance, transaction history
-o	Navigation buttons to search users, add funds, or view pending requests
-	The button to direct to pending requests only appears if the logged in user actually has requests pending
-•	Send or Request Money:
-o	Use transaction.html
-o	Enter recipient user ID (autofilled from search or request)
-o	Enter amount, choose to send/request
-o	Success redirects to history.html
-•	Search Users:
-o	Use search.html
-o	Search by username or email
-o	If user found, redirected to transaction.html with user ID filled
-•	Manage Requests:
-o	Go to pending.html
-o	See pending requests for you
-o	Accept: Goes to transaction form (autofills details)
-	If funds insufficient, status remains pending, alert shown
-o	Decline: Removes request
-•	Add Money:
-o	Go to account.html
-o	Enter amount (shows logged in user’s card number)
-o	Money added after 2-day delay
-•	Log Out:
-o	Use "Back to Login" button (calls logout.php)
-o	Session destroyed
-o	Pressing back reloads and checks session; if not logged in, alert and redirect back to index
+- HTML for UI
+- PHP for backend logic
+- MySQL for database storage
+- JavaScript for interactivity (AJAX, DOM manipulation)
 
-Security/Validation Notes
-•	Duplicate username/email checks on registration.
-•	Passwords are hashed.
-•	Prepared statements for SQL in php scripts.
-•	Session required for all user actions.
-•	If user not logged in, all backend scripts redirect to login.
-•	"Back" button after logout reloads and checks session status.
-•	User cannot access others' data by changing user IDs.
+---
 
+## 📁 Main Files and Their Roles
 
-How to Install/Run
-•	Import SQL schema to your MySQL server.
-•	Edit db.php for your DB credentials.
-•	Upload all files to your PHP web server. (EC2)
-•	Open register.html in your browser to create the first user.
-•	App is now ready to use.
+### Frontend (HTML + JS)
+| File             | Purpose |
+|------------------|---------|
+| `index.html`     | User login form |
+| `register.html`  | User registration form |
+| `history.html`   | Displays balance, transaction history, and navigation |
+| `transaction.html` | Send/request money |
+| `pending.html`   | View and manage pending requests |
+| `account.html`   | Add funds to account, view card number |
+| `search.html`    | Search for users by username or email |
+| `style.css`      | Styling for all pages |
+| `loadRequests.js`| Loads pending requests via AJAX for `pending.html` |
 
-Troubleshooting
-•	Duplicate registration: Usernames/emails must be unique.
-•	Session issues: Clear browser cookies or restart server.
-•	Page not updating after logout: Make sure session checks are in place on all pages.
-•	Database errors: Ensure all tables/columns exist as shown above.
+### Backend (PHP)
+| File                  | Purpose |
+|-----------------------|---------|
+| `db.php`              | Database connection logic |
+| `create_user.php`     | Handles user registration and account creation |
+| `login.php`           | Authenticates users and starts session |
+| `logout.php`          | Destroys session and logs out user |
+| `transactions.php`    | Handles sending/requesting money |
+| `history.php`         | Returns balance and transaction history |
+| `load_requests.php`   | Loads pending requests for logged-in user |
+| `handle_requests.php` | Accept/decline payment requests |
+| `add_to_account.php`  | Adds funds to account with 2-day delay logic |
+| `session_check.php`   | AJAX endpoint to verify session is active |
+
+---
+
+## 🗃️ Database Schema
+
+### `Users`
+- `UserID` (PK)
+- `Username` (unique)
+- `Email` (unique)
+- `PasswordHash`
+- `CreatedAt`
+
+### `Accounts`
+- `AccountID` (PK)
+- `UserID` (FK)
+- `Balance` (Decimal)
+- `CardNumber` (16-digit, unique)
+- `CreatedAt`
+- `UpdatedAt`
+
+### `Transactions`
+- `TransactionID` (PK)
+- `SenderID` (FK)
+- `ReceiverID` (FK)
+- `Amount` (Decimal)
+- `TransactionDate`
+
+### `Requests`
+- `RequestID` (PK)
+- `RequestorID` (FK)
+- `RequesteeID` (FK)
+- `Amount` (Decimal)
+- `Status` (`PENDING`, `ACCEPTED`, `DECLINED`)
+- `RequestDate`
+
+---
+
+## 🚀 How to Use the App
+
+### 🔐 Register
+- Go to `index.html`, click **Register**
+- Fill out the form
+- System auto-generates a unique card number
+
+### 🔑 Log In
+- Enter your credentials on `index.html`
+- Redirected to `history.html` upon success
+
+### 📜 View History
+- `history.html` displays balance and transaction history
+- Navigation available to search users, add funds, or view pending requests
+
+### 💸 Send/Request Money
+- Go to `transaction.html`
+- Enter recipient ID, amount, and choose to send/request
+- Redirects to `history.html` on success
+
+### 🔍 Search Users
+- Use `search.html` to find users by username/email
+- Found users redirect to `transaction.html` with autofilled ID
+
+### 🕒 Manage Requests
+- Go to `pending.html`
+- Accept: opens transaction form with autofilled data (must have sufficient funds)
+- Decline: removes the request
+
+### 💰 Add Funds
+- Navigate to `account.html`
+- Enter amount; funds added after a 2-day delay
+
+### 🚪 Log Out
+- Click **Back to Login** button
+- Session is destroyed
+- "Back" button checks session and redirects if not logged in
+
+---
+
+## 🔐 Security & Validation
+
+- Unique checks on username/email during registration
+- Passwords are hashed securely
+- All SQL queries use prepared statements
+- Sessions required for all actions
+- All backend scripts verify active session
+- User access restricted to their own data
+- Session check enforced on page reload after logout
+
+---
+
+## 🛠️ Installation Guide
+
+1. Import SQL schema into your MySQL server.
+2. Update `db.php` with your MySQL credentials.
+3. Upload all files to a PHP-compatible web server (e.g., AWS EC2).
+4. Open `register.html` in your browser to create the first user.
+5. You're ready to go!
+
+---
+
+## 🧰 Troubleshooting
+
+- **Duplicate registration**: Ensure username and email are unique.
+- **Session not working**: Clear cookies or restart your PHP server.
+- **Post-logout back button**: Ensure `session_check.php` is working correctly.
+- **Database errors**: Confirm all tables match the structure provided above.
