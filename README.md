@@ -133,8 +133,9 @@ A simple web application that allows users to register, log in, send/request mon
 1. Import SQL schema into your MySQL server.
 2. Update `db.php` with your MySQL credentials.
 3. Upload all files to a PHP-compatible web server (e.g., AWS EC2).
-4. Open `register.html` in your browser to create the first user.
-5. You're ready to go!
+4. I advise using PUTTY as an interface for EC2 as a way to upload/edit files to instance.
+5. Open `register.html` in your browser to create the first user.
+6. You're ready to go!
 
 ---
 
